@@ -81,7 +81,7 @@ services:
     depends_on:
       - broker
     volumes:
-      - ./tests/configs/kowlconfig.yaml:/etc/kowl/config.yaml
+      - ./kowlconfig.yaml:/etc/kowl/config.yaml
     entrypoint: ./kowl --config.filepath=/etc/kowl/config.yaml
 
   connect:
@@ -90,7 +90,7 @@ services:
     container_name: connect
     build:
       context: .
-      dockerfile: Dockerfile.test
+      dockerfile: Dockerfile
     depends_on:
       - broker
       - schema-registry
