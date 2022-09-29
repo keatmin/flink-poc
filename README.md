@@ -14,3 +14,5 @@ http --download https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-
 
 ## Gotchas
 - Flink window can only be called on time attribute column, defined either using WATERMARK or processing time attribute using proc AS PROCTIME()
+- Need print connector to print to stdout
+- Need to learn what set_parallelism does
