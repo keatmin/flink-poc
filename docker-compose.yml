@@ -25,20 +25,15 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_JMX_PORT: 9101
-      KAFKA_JMX_HOSTNAME: localhost
       KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker:29092
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
-      CONFLUENT_METRICS_ENABLE: 'true'
-      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
   schema-registry:
     image: confluentinc/cp-schema-registry:7.2.2
@@ -119,17 +114,6 @@ services:
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
       CONNECT_LISTENERS: "https://connect:8443, http://connect:8083"
-
-      # CONNECT_REST_ADVERTISED_LISTENER: https
-      # CONNECT_LISTENERS_HTTPS_SSL_TRUSTSTORE_LOCATION: /appuser/truststore/kafka.truststore.jks
-      # CONNECT_LISTENERS_HTTPS_SSL_TRUSTSTORE_PASSWORD: test123
-      # CONNECT_LISTENERS_HTTPS_SSL_KEYSTORE_LOCATION: /appuser/keystore/kafka.keystore.jks
-      # CONNECT_LISTENERS_HTTPS_SSL_KEYSTORE_PASSWORD: test123
-      # CONNECT_LISTENERS_HTTPS_SSL_KEY_PASSWORD: test123
-      # CONNECT_SSL_CLIENT_AUTH: requested
-
-      CONNECT_KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sum.management.jmxremote.port=8999"
-      CONNECT_KAFKA_JMX_PORT: 8999
 
   postgres:
     image: debezium/example-postgres
