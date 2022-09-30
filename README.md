@@ -5,14 +5,40 @@ Flink data processing using Kafka
 Download Apache Flink jar
 ```bash
 http --download https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka/1.15.2/flink-sql-connector-kafka-1.15.2.jar
-http --download https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka/1.15.2/flink-sql-avro-1.15.2.jar
+http --download https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka/1.15.2/flink-sql-avro-confluent-registry-1.15.2.jar
 ```
+
+## Usage
+- Run `docker-compose up --build --remove-orphans` if requires a full restart.
+- Postgres can be removed in `docker-compose` if no need for CDC
 
 ## Datastream vs Table API
 - Table API is an API that unifies both batch and stream
 - Datastream is an API to implement stream processing application
 
+
+## Latency vs completeness
+- WATERMARK is a way Apache Flink is using to set a limit on how long to wait for an event. The trade-off with this compared to a batch is batch gets the completeness of data in the specific time. Watermark is assertion that stream is complete up to time t. Anything later than t is late data.
+- Small t for watermark means possibly wrong result(incomplete), produced quickly.
+
+## time
+There are 3 types of time attributes:
+- event time -> Time the event is produced
+- processing time -> when an operator start processing the event
+- ingestion time -> timestamp recorded by Flink when it ingested the data
+## Windows
+There are 3 types of window that Flink supports:
+- Tumbling - page views per minute
+- Sliding - page views per minute computed every 10s
+- Session - page views per session where sessions are computed by a gap of at least 30 minutes per session.
+
+All can use event time or processing time, however using processing time have the limitations of:
+- can not correctly process historic data
+- can not correctly handle out-of-order data
+- results will be non-deterministic
+
 ## Gotchas
 - Flink window can only be called on time attribute column, defined either using WATERMARK or processing time attribute using proc AS PROCTIME()
 - Need print connector to print to stdout
 - Need to learn what set_parallelism does
+- Time window is aligned to epoch, one hour window means window will close on the dot even if the app started at 1:05
