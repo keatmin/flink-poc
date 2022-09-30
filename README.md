@@ -24,7 +24,7 @@ http --download https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-
 ## time
 There are 3 types of time attributes:
 - event time -> Time the event is produced
-- processing time -> when an operator start processing the event
+- processing time -> when an operator start processing the event, based on the clock of the machine. (in distributed and asynchronous environments processing time does not provide determinism)
 - ingestion time -> timestamp recorded by Flink when it ingested the data
 ## Windows
 There are 3 types of window that Flink supports:
@@ -36,6 +36,13 @@ All can use event time or processing time, however using processing time have th
 - can not correctly process historic data
 - can not correctly handle out-of-order data
 - results will be non-deterministic
+
+## Stateful Stream Processing
+### Barriers
+- Flink inserts a stream barrier that flows with the stream. It determines which data should be in the current snapshot or not.
+- When there is more than 1 parallel stream, operator waits for both barrier of snapshot n to arrive before creating a snapshot and emitting barrier to output.
+### snapshot
+- Snapshot is stored in configurable state backend. By default, Job Manager's memory but a distributed one should be used in prd.
 
 ## Gotchas
 - Flink window can only be called on time attribute column, defined either using WATERMARK or processing time attribute using proc AS PROCTIME()
