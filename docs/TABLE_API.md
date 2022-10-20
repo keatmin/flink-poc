@@ -17,3 +17,9 @@ A table is always bound to a TableEnvironment
 #### Perm vs Temp
 - Table can be temporary and tied to a lifecycle of a single Flink session or permanent across multiple Flink sessions and clusters.
 - Permanent table requires a catalog.
+
+### Emitting table
+- Table is emitted by writing to a TableSink; a generic interface of wide variety of formats, i.e CSV, Parquet, Avro, JDBC, Cassandra, Kafka.
+```python
+table_env.execute_insert() # method defines a complete end-to-end pipeline emitting source table to registered sink table.
+```
