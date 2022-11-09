@@ -85,7 +85,7 @@ services:
     container_name: connect
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: images/kafka-connect.Dockerfile
     depends_on:
       - broker
       - schema-registry
@@ -126,3 +126,36 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres # pragma: allowlist secret
+
+  flink-job-manager:
+    build:
+      context: .
+      dockerfile: images/pyflink.Dockerfile
+    image: pyflink:latest
+    volumes:
+      - .:/opt/pyflink
+    hostname: "jobmanager"
+    expose:
+      - "6123"
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+  taskmanager:
+    image: pyflink:latest
+    build:
+      context: .
+      dockerfile: images/pyflink.Dockerfile
+    volumes:
+    - .:/opt/pyflink
+    expose:
+      - "6121"
+      - "6122"
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    links:
+      - jobmanager:jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
