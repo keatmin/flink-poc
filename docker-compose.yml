@@ -142,20 +142,20 @@ services:
     command: jobmanager
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
-  taskmanager:
+  flink-task-manager:
     image: pyflink:latest
     build:
       context: .
       dockerfile: images/pyflink.Dockerfile
     volumes:
-    - .:/opt/pyflink
+      - .:/opt/pyflink
     expose:
       - "6121"
       - "6122"
     depends_on:
-      - jobmanager
+      - flink-job-manager
     command: taskmanager
     links:
-      - jobmanager:jobmanager
+      - flink-job-manager:jobmanager
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
