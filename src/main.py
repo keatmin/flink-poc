@@ -37,11 +37,11 @@ def main():
         ) WITH (
             'connector' = 'kafka',
             'topic' = 'fleet_mgmt_sensors',
-            'properties.bootstrap.servers' = 'localhost:9092',
+            'properties.bootstrap.servers' = 'broker:29092',
             'properties.group.id' = 'fleet_mgmt_sensors',
             'scan.startup.mode' = 'latest-offset',
             'value.format' = 'avro-confluent',
-            'value.avro-confluent.url' = 'http://localhost:8081'
+            'value.avro-confluent.url' = 'http://schema-registry:8081'
         )
     """
     tbl_env.execute_sql(fleet_mgmt)
@@ -67,7 +67,7 @@ def main():
     """
     wdw = tbl_env.sql_query(sql)
     print("Executing insert")
-    wdw.execute_insert("sink").wait()
+    wdw.execute_insert("sink")
 
 
 if __name__ == "__main__":
