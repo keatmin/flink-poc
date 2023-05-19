@@ -53,7 +53,7 @@ spec:
               value: io.confluent.connect.avro.AvroConverter
             - name: CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL
               value: http://schema-registry-conf:8081
-          image: localhost:5001/kafka-connect:latest
+          image: kafka-connect:latest
           name: connect
           ports:
             - containerPort: 8083
