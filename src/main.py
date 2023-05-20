@@ -15,13 +15,13 @@ def main():
         stream_execution_environment=env, environment_settings=settings
     )
     kafka_jar = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)),
-        "flink-sql-connector-kafka-1.15.2.jar",
+        "/opt/flink/lib",
+        "flink-sql-connector-kafka-1.17.0.jar",
     )
     # jar to read confluent-avro
     avro_jar = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)),
-        "flink-sql-avro-confluent-registry-1.15.2.jar",
+        "/opt/flink/lib",
+        "flink-sql-avro-confluent-registry-1.17.0.jar",
     )
     tbl_env.get_config().get_configuration().set_string(
         "pipeline.jars", f"file://{kafka_jar};file://{avro_jar}"

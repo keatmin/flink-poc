@@ -5,7 +5,7 @@ metadata:
   name: flink
   namespace: flink-operator
 spec:
-  image: flink:1.17
+  image: pyflink
   imagePullPolicy: IfNotPresent
   flinkVersion: v1_17
   serviceAccount: flink
