@@ -20,7 +20,7 @@ resource "kafka-connect_connector" "fleet_mgmt_sensors" {
     "connector.class" = "io.confluent.kafka.connect.datagen.DatagenConnector"
     "key.converter"   = "org.apache.kafka.connect.storage.StringConverter"
     "value.converter" : "io.confluent.connect.avro.AvroConverter",
-    "value.converter.schema.registry.url" : "http://schema-registry:8081",
+    "value.converter.schema.registry.url" : "http://schema-registry-conf:8081",
     "kafka.topic"  = "fleet_mgmt_sensors"
     "max.interval" = 50
     "quickstart"   = "fleet_mgmt_sensors"
