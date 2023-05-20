@@ -26,6 +26,16 @@ spec:
           ports:
             - containerPort: 2181
           resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/zookeeper/data/version-2
+              name: data
+            - mountPath: /var/lib/zookeeper/log/version-2
+              name: log
       hostname: zookeeper
       restartPolicy: Always
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: log
+          emptyDir: {}
 status: {}

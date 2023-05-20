@@ -3,17 +3,22 @@ apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
   name: flink
+  namespace: flink-operator
 spec:
-  image: pyflink:latest
+  image: flink:1.17
+  imagePullPolicy: IfNotPresent
   flinkVersion: v1_17
-  flinkConfiguration:
-    taskmanager.numberOfTaskSlots: "2"
   serviceAccount: flink
   jobManager:
     resource:
-      memory: "2048m"
+      memory: "1024m"
       cpu: 1
   taskManager:
     resource:
-      memory: "2048m"
+      memory: "1024m"
       cpu: 1
+  ingress:
+    template: "/{{name}}(/|$)(.*)"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+      nginx.ingress.kubernetes.io/configuration-snippet: if ($uri = "/flink") {rewrite .* $1/flink/ permanent;}
