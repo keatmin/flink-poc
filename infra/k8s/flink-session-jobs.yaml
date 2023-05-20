@@ -1,0 +1,12 @@
+---
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkSessionJob
+metadata:
+  name: pyflink-session-job
+spec:
+  deploymentName: flink
+  job:
+    entryClass: "org.apache.flink.client.python.PythonDriver"
+    args: ["-py", "/opt/flink/main.py"]
+    parallelism: 1
+    upgradeMode: stateless
