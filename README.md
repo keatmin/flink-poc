@@ -77,6 +77,10 @@ kubectl apply -f ./infra/k8s/schema-registry-external-name.yaml
 kubectl apply -f ./infra/k8s/flink-session-jobs.yaml
 ```
 There are better ways than running all of them one at a time, but it's important to see what each of them does.
+
+#### What is external name
+A relatively new k8s feature, it is used to refer to another service in other namespace without having to use the resolved DNS.
+
 As `flink-operator` and `flink`'s deployment are deployed in `flink-operator` namespace, `<service>-external-name.yaml` is used to refer to a service in another namespace without having to type out its resolved DNS.
 
 For example, kafka broker is deployed in `default` namespace and flink session job in `flink-operator` namespace is trying to refer to the broker, we could either:
